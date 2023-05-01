@@ -1,7 +1,21 @@
 import React from "react";
 import { ScProduct } from "./scParts";
+import { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
 const Product = (props) => {
+  const { cart } = useContext(CartContext);
+
+  function addToCardLabel() {
+    const itemInCart = cart.find((item) => item.id === props.product.id);
+
+    if (itemInCart) {
+      return "Added";
+    } else {
+      return "Add to cart";
+    }
+  }
+
   return (
     <ScProduct>
       <img src={props.product.image} alt={`${props.product.title} book`} />
@@ -10,7 +24,7 @@ const Product = (props) => {
         <div className="footer">
           <p className="price">${props.product.price}</p>
           <button onClick={() => props.addItem(props.product)}>
-            Add to cart
+            {addToCardLabel()}
           </button>
         </div>
       </div>
